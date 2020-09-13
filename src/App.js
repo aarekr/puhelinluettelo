@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import Filter from './components/Filter.js'
+import Person from './components/Person.js'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -69,27 +71,6 @@ const App = () => {
         )}
     </div>
   )
-}
-
-const Person = (props) => {
-    return(
-        <div>
-            {props.name} {props.number} <br />
-        </div>
-    )
-}
-
-const Filter = ({persons, searchWord, handleSearchWord}) => {
-    return(
-      <div>filter shown with <input value={searchWord} onChange={handleSearchWord} />
-        <div>{persons.filter(person => 
-                person.name.toLowerCase().includes(searchWord))
-                .map(filteredPerson => (
-          <p>{filteredPerson.name} {filteredPerson.number}</p>
-          ))}
-        </div>
-      </div>
-    )
 }
 
 export default App
