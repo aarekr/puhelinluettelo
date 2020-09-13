@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' },
-    { name: 'Grace Hopper' }
+    { name: 'Arto Hellas', number: 12345 },
+    { name: 'Grace Hopper', number: 67890 }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const addName = (event) => {
       event.preventDefault()
       const nameObject = {
-          name: newName
+          name: newName,
+          number: newNumber
       }
       let nameAlreadyAdded = false; // nimentarkistus
       for(let i=0; i < persons.length; i++){
@@ -24,10 +26,14 @@ const App = () => {
       else{ // lisätään uusi nimi
         setPersons(persons.concat(nameObject))
         setNewName('')
+        setNewNumber('')
       }
   }
   const handleNameChange = (event) => {
       setNewName(event.target.value)
+  }
+  const handleNumberChange = (event) => {
+      setNewNumber(event.target.value)
   }
 
   return (
@@ -38,13 +44,20 @@ const App = () => {
             <input value={newName} 
               onChange={handleNameChange} />
           </div>
+          <div>Number: 
+            <input value={newNumber}
+              onChange={handleNumberChange} />
+          </div>
           <div>debug: {newName}</div>
+          <div>debug: {newNumber}</div>
           <div><button type="submit">add</button></div>
       </form>
 
       <h2>Numbers</h2>
         {persons.map((person, i)=>
-            <Person key={i} name={person.name} />
+            <Person key={i} 
+                    name={person.name} 
+                    number={person.number} />
         )}
     </div>
   )
@@ -53,7 +66,7 @@ const App = () => {
 const Person = (props) => {
     return(
         <div>
-            {props.name} <br />
+            {props.name} {props.number} <br />
         </div>
     )
 }
