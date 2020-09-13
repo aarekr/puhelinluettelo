@@ -12,8 +12,19 @@ const App = () => {
       const nameObject = {
           name: newName
       }
-      setPersons(persons.concat(nameObject))
-      setNewName('')
+      let nameAlreadyAdded = false; // nimentarkistus
+      for(let i=0; i < persons.length; i++){
+          if(newName === persons[i].name){
+            nameAlreadyAdded = true
+          }
+      }
+      if(nameAlreadyAdded){ // alert, jos nimi jo lisätty
+        alert(`${newName} is already added to phonebook`)
+      }
+      else{ // lisätään uusi nimi
+        setPersons(persons.concat(nameObject))
+        setNewName('')
+      }
   }
   const handleNameChange = (event) => {
       setNewName(event.target.value)
