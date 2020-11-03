@@ -40,9 +40,12 @@ const App = () => {
         alert(`${newName} is already added to phonebook`)
       }
       else{ // lisätään uusi nimi
-        setPersons(persons.concat(nameObject))
-        setNewName('')
-        setNewNumber('')
+        axios.post('http://localhost:3001/persons', nameObject)
+          .then(response => {
+            setPersons(persons.concat(nameObject))
+            setNewName('')
+            setNewNumber('')
+          })
       }
   }
   const handleNameChange = (event) => {
