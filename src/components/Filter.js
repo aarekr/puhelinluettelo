@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Filter = ({persons, searchWord, handleSearchWord}) => {
+const Filter = ({persons, searchWord, handleSearchWord, newId, deleteName}) => {
     return(
       <div>filter shown with <input value={searchWord} onChange={handleSearchWord} />
         <div>{persons.filter(person => 
