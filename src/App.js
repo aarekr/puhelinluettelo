@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Filter from './components/Filter.js'
 import Person from './components/Person.js'
-import axios from 'axios'
+//import axios from 'axios'
+import nameService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -15,10 +16,10 @@ const App = () => {
   const [ searchWord, setSearchWord] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    nameService
+      .getAll()
+      .then(initialNames => {
+        setPersons(initialNames)
       })
   }, [])
 
@@ -40,9 +41,10 @@ const App = () => {
         alert(`${newName} is already added to phonebook`)
       }
       else{ // lisätään uusi nimi
-        axios.post('http://localhost:3001/persons', nameObject)
-          .then(response => {
-            setPersons(persons.concat(nameObject))
+        nameService
+          .create(nameObject)
+          .then(returnedName => {
+            setPersons(persons.concat(returnedName))
             setNewName('')
             setNewNumber('')
           })
