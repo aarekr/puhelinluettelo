@@ -3,6 +3,7 @@ import Filter from './components/Filter.js'
 import Person from './components/Person.js'
 import axios from 'axios'
 import nameService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
@@ -10,6 +11,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ searchWord, setSearchWord] = useState('')
   const [ newId, setId ] = useState('')
+  const [ errorMessage, setErrorMessage ] = useState(null)
 
   useEffect(() => {
     nameService
@@ -43,13 +45,17 @@ const App = () => {
             setPersons(persons.concat(returnedName))
             setNewName('')
             setNewNumber('')
+            setErrorMessage(`Added ${newName} to phonebook`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
           })
       }
   }
   const deleteName = (event) => {
     event.preventDefault()
-    console.log("Persoonat: ", persons[newId-1].name)
-    var r = window.confirm("Delete " + persons[newId-1].name + "?")
+    var person = persons[newId-1].name
+    var r = window.confirm("Delete " + person + "?")
     if(r == true){
       axios
         .delete(`http://localhost:3001/persons/${newId}`)
@@ -60,7 +66,11 @@ const App = () => {
           .getAll()
           .then(initialNames => {
             setPersons(initialNames)
-        })
+            setErrorMessage(`Removed ` + person + ` from phonebook`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          })
     }
   }
 
@@ -79,7 +89,8 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <Notification message={errorMessage} />
       <Filter persons={persons} 
               searchWord={searchWord.toLowerCase()} 
               handleSearchWord={handleSearchWord}
